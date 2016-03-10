@@ -1,0 +1,134 @@
+#include <iostream>
+
+using namespace std;
+
+struct node {
+	int val;
+	node *next;
+};
+
+struct lists {
+	node *H = NULL;
+	int size = 0;
+	lists() {
+		H = NULL;
+		size = 0;
+	}
+	void add();
+	void del();
+	void sort();
+	void swap();
+	void print();
+};
+
+int main () {
+	
+	lists list;
+	char function_char = ' ';
+	while (1) {
+		cout << "\na - add, d - delete, p - print\n";
+		cin >> function_char;
+		cout << "\n";
+		switch (function_char) {
+		case 'a': list.add();
+			break;
+		case 'd': list.del();
+			break;
+		case 'p': list.print();
+			break;
+		case 's': list.sort();
+			break;
+		}
+	}
+	system("PAUSE");
+	return 0;
+}
+
+void lists::add() {
+	
+	int x;
+	cout << "Value to add: ";
+	cin >> x;
+	if (H == NULL) {
+		H = new node;
+		H->val = x;
+		H->next = NULL;
+	}
+	else {
+		node *p = H;
+		while (p->next != NULL) {
+			p = p->next;
+		}
+		node *tmp = new node;
+		tmp->val = x;
+		tmp->next = NULL;
+		p->next = tmp;
+	}
+	size++;
+}
+
+void lists::del() {
+
+	int x;
+	if (H != NULL) {
+		cout << "Value to delete: ";
+		cin >> x;
+		node *p = H;
+		if (p->val == x) {
+			H = p->next;
+			delete p;
+		}
+		else {
+			while ((p->next != NULL) && (p->next->val != x)) {
+				p = p->next;
+			}
+			if (p->next != NULL) {
+				node *d = p->next;
+				p->next = d->next;
+				delete d;
+			}
+		}
+	}
+}
+
+void lists::print() {
+	
+	if (H != NULL) {
+		node *p = H;
+		cout << "Queue: ";
+		while (p->next != NULL) {
+			cout << p->val << "\t";
+			p = p->next;
+		}
+		cout << p->val << "\n";
+	}
+	else cout << "List is empty!\n";
+}
+
+void lists::sort() {
+	
+	for (int i = 0; i < size; i++) {
+		node *p = H;
+		for (int j = 0; j < size - 2; j++)
+			 {
+			if (H->val > H->next->val)
+				 {
+				node * d = H;
+				H = H->next;
+				d->next = H->next;
+				H->next = d;
+				}
+			else if (p->next->next != NULL)
+				 {
+				if (p->next->val > p->next->next->val)
+					 {
+					node * d = p->next;
+					p->next = d->next;
+					d->next = d->next->next;
+					p->next->next = d;
+					}
+				}
+			p = p->next;
+			}
+		}
+}
